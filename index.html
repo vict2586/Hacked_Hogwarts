@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./style.css">
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>All Students</h1>
+
+    <div class="search-container">
+      <input type="text" placeholder="Search" name="search">
+      <button type="submit"><i class="search"></i></button>
+    </div>
+    
+    <nav id="filter_buttons">
+
+      <button class="filter" data-action="filter" data-filter="all">All Students</button>
+      <button class="filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+      <button class="filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+      <button class="filter" data-action="filter" data-filter="rawenclaw">Rawenclaw</button>
+      <button class="filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+      <button class="filter" data-action="filter" data-filter="prefect">Prefects</button>
+      <button class="filter" data-action="filter" data-filter="inquisitorial-squad">Inquisitorial Squad</button>
+      <button class="filter" data-action="filter" data-filter="expelled">Expelled</button>
+
+    </nav>
+
+  <main>
+
+    <section id="popup">
+
+      <article class="popup_content">
+
+        <div class="close">X</div>
+
+        <div class="popup_column1">
+          <h3 class="firstname"></h3>
+          <h3 class="lastname"></h3>
+
+          <h4 class="middlename">Middlename: </h4>
+          <h4 class="nickname">Nickname: </h4>
+
+          <p id="gender">Gender: </p>
+          <p id="house">House: </p>
+          <p id="blood">Blood: </p>
+
+          <p class="prefect">Prefect: </p>
+          <p class="inq">Inquisitor: </p>
+          <p class="expelled">Expelled: </p>
+
+          <img id="shield" src="" alt="student photo" />
+          <img id="color" src="" alt="student photo" />
+        </div>
+
+        <div class="popup_column2">
+          <img id="photo" src="" alt="student photo" />
+        </div>
+
+      </article>
+
+    </section>
+
+
+    <table id="list">
+
+      <thead>
+
+        <tr>
+          <th data-action="sort" data-sort-direction="asc" data-sort="firstname">Firstname</th>
+          <th>Middlename</th>
+          <th data-action="sort" data-sort-direction="asc" data-sort="lastname">Lastname</th>
+          <th data-action="sort" data-sort-direction="desc" data-sort="house">House</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+        <!-- student template will be copied and inserted here -->
+      </tbody>
+
+    </table>
+
+  </main>
+
+
+  <template id="student">
+    <tr>
+      <td data-field="firstname">FIRSTNAME</td>
+      <td data-field="middlename">MIDDLENAME</td>
+      <td data-field="lastname">LASTNAME</td>
+      <td data-field="house">HOUSE</td>
+    </tr>
+  </template>
+
+  
+  <script src="./script.js"></script>
+
+</body>
+</html>
