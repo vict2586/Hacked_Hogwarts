@@ -31,6 +31,16 @@
 
     </nav>
 
+    <!--
+    <select name="sortingList" id="sortingList">
+      <option>House</option>
+      <option value="gryffindor">Gryffindor</option>
+      <option value="hufflepuff">Hufflepuff</option>
+      <option value="rawenclaw">Rawenclaw</option>
+      <option value="slytherin">Slytherin</option>
+    </select>
+    -->
+
   <main>
 
     <section id="popup">
@@ -40,8 +50,7 @@
         <div class="close">X</div>
 
         <div class="popup_column1">
-          <h3 class="firstname"></h3>
-          <h3 class="lastname"></h3>
+          <h3 class="fullname"></h3>
 
           <h4 class="middlename">Middlename: </h4>
           <h4 class="nickname">Nickname: </h4>
@@ -54,8 +63,8 @@
           <p class="inq">Inquisitor: </p>
           <p class="expelled">Expelled: </p>
 
-          <img id="shield" src="" alt="student photo" />
-          <img id="color" src="" alt="student photo" />
+          <img id="shield" src="" alt="house shield" />
+          <img id="color" src="" alt="house color" />
         </div>
 
         <div class="popup_column2">
@@ -89,7 +98,7 @@
 
 
   <template id="student">
-    <tr>
+    <tr class="temp">
       <td data-field="firstname">FIRSTNAME</td>
       <td data-field="lastname">LASTNAME</td>
       <td data-field="house">HOUSE</td>

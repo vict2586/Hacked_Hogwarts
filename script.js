@@ -276,8 +276,10 @@ function ShowStudents(student) {
       lastname: "",
       nickname: undefined,
       gender: "",
-      img: undefined,
-      house: ""
+      photo: undefined,
+      house: "",
+      prefect: false,
+      expelled: false
   };
 
   // create template
@@ -288,6 +290,7 @@ function ShowStudents(student) {
   const fullName = student.fullname.toLowerCase().trim();
   const splitFullName = fullName.split(" ");
   const house = student.house.toLowerCase().trim();
+  const gender = student.gender.toLowerCase().trim();
   
   let lastName = "";
   let indexhyphen = 0;
@@ -329,7 +332,7 @@ function ShowStudents(student) {
 
     //Middlename or Nickname
     let middlename = "";
-    let nickname = null;
+    let nickname = "";
 
     if (splitFullName.length > 2) {
 
@@ -339,16 +342,16 @@ function ShowStudents(student) {
   
         nickname = nickname.substring(0, 1).toUpperCase() + nickname.substring(1);
 
-        middlename = null;
+        middlename = "";
 
       } else {
         middlename = splitFullName[1].substring(0, 1).toUpperCase() + splitFullName[1].substring(1);
 
-        nickname = null;
+        nickname = "";
       }
 
     } else {
-      middlename = null;
+      middlename = "";
     }
   
     students.middlename = middlename;
@@ -360,8 +363,8 @@ function ShowStudents(student) {
 
   } else {
     students.lastname = null;
-    students.middlename = null;
-    students.nickname = null;
+    students.middlename = "";
+    students.nickname = "";
   }
   
   //Photo
@@ -385,9 +388,20 @@ function ShowStudents(student) {
   } else {
     students.photo = null;
   }
+
+  /*
+  if (students.firstname === "Leanne") {
+
+    students.photo = firstName.substring(0).toLowerCase() + ".png";
+
+  } else {
+    students.photo = firstName.substring(0, 1).toLowerCase() + ".png";
+  }
+  */
   
   //House is already a seperate string so just adds the age to the object
   students.house = house.substring(0, 1).toUpperCase() + house.substring(1);
+  students.gender = gender.substring(0, 1).toUpperCase() + gender.substring(1);
     
   AllStudents.push(students);
 
@@ -439,7 +453,7 @@ function displayStudents(students) {
   clone.querySelector("[data-field=house]").textContent = students.house;
 
   // When clicked on student show popup
-  //clone.querySelector("#student").addEventListener("click", () => showDetails(students));
+  clone.querySelector(".temp").addEventListener("click", () => showDetails(students));
 
   // Append clone to list
   document.querySelector("#list tbody").appendChild(clone);
@@ -455,6 +469,31 @@ function displayStudents(students) {
 
 
 
-function showDetails(student) {
+function showDetails(students) {
+  console.log("popup");
 
+  popup.style.display = "block";
+
+  popup.querySelector(".fullname").textContent = `${students.firstname} ${students.lastname}`;
+
+  popup.querySelector(".middlename").textContent = `Middlename: ${students.middlename}`;
+  popup.querySelector(".nickname").textContent = `Nickname: ${students.nickname}`;
+
+  popup.querySelector("#gender").textContent = `Gender: ${students.gender}`;
+
+  popup.querySelector("#house").textContent = `House: ${students.house}`;
+
+  // blod-status
+  // prefect
+  // inquisitor
+  // expelled
+
+  if (students.photo != null) {
+    popup.querySelector("#photo").src = "images/" + students.photo;
+  }
+
+  // house shield
+  // house color
+
+  document.querySelector(".close").addEventListener("click", () => (popup.style.display = "none"));
 }
