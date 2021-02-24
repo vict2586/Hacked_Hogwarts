@@ -39,7 +39,7 @@ function start() {
 
 
 function readBtns() {
-  console.log("filter or sort")
+  //console.log("filter or sort")
   
   //filterbuttons
   document.querySelectorAll("[data-action='filter']")
@@ -101,7 +101,7 @@ function filterList(filterredList) {
   }
   //TODO: filter on expelled and unexpelled
 
-  //console.log(filterredList);
+  console.log(filterredList);
   return filterredList;
 };
 
@@ -115,33 +115,37 @@ function filterList(filterredList) {
 
 
 // See only gryffindor students
-function isGryffindor(students) {
+function isGryffindor(house) {
+  console.log("gryffindor");
   
-  return students.house === "gryffindor";
+  return house.house === "Gryffindor";
 };
 
 
 
 // See only hufflepuff students
-function isHufflepuff(students) {
+function isHufflepuff(house) {
+  console.log("hufflepuff");
   
-  return students.house === "hufflepuff";
+  return house.house === "Hufflepuff";
 };
 
 
 
 // See only ravenclaw students
-function isRavenclaw(students) {
+function isRavenclaw(house) {
+  console.log("ravenclaw");
   
-  return students.house === "ravenclaw";
+  return house.house === "Ravenclaw";
 };
 
 
 
 // See only slytherin students
-function isSlytherin(students) {
+function isSlytherin(house) {
+  console.log("slytherin");
   
-  return students.house === "slytherin";
+  return house.house === "Slytherin";
 };
 
 
@@ -186,7 +190,7 @@ function setSort( sortBy, sortDir ) {
 
 // Sort what should be sortet
 function sortList( AllStudents ) {
-  console.log("sort is in the house")
+  //console.log("sort is in the house")
 
   let direction = 1;
 
@@ -220,7 +224,7 @@ function sortList( AllStudents ) {
 
 // Builds list form filter and sort
 function buildList() {
-  console.log("Bilding");
+  //console.log("Bilding");
 
   const fList = filterList( AllStudents );
   const sList = sortList( fList );
@@ -389,7 +393,7 @@ function ShowStudents(student) {
 
   });
 
-  displayList();
+  displayList(AllStudents);
 
 };
 
@@ -403,14 +407,14 @@ function ShowStudents(student) {
 
 
 // Clear list and makes new
-function displayList() {
-  console.log("I am here");
+function displayList(students) {
+  //console.log("Clear and make mew");
 
   // Clear list
   document.querySelector("#list tbody").innerHTML = "";
 
   // Make new list
-  AllStudents.forEach(displayStudents);
+  students.forEach(displayStudents);
 };
 
 
@@ -431,12 +435,11 @@ function displayStudents(students) {
 
   // Tells what info should be in the clone
   clone.querySelector("[data-field=firstname]").textContent = students.firstname;
-  clone.querySelector("[data-field=middlename]").textContent = students.middlename;
   clone.querySelector("[data-field=lastname]").textContent = students.lastname;
   clone.querySelector("[data-field=house]").textContent = students.house;
 
   // When clicked on student show popup
-  //clone.querySelector("#student").addEventListener("click", () => showDetails(student));
+  //clone.querySelector("#student").addEventListener("click", () => showDetails(students));
 
   // Append clone to list
   document.querySelector("#list tbody").appendChild(clone);
