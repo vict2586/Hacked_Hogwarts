@@ -1,6 +1,6 @@
 "use strict";
 
-document.addEventListener("DOMContentLoaded", ListAllStudents);
+document.addEventListener("DOMContentLoaded", start);
 
 let AllStudents = [];
 
@@ -24,19 +24,125 @@ let settings = {
 function start() {
   console.log("Ready");
 
-
-  //Filter
-  document.querySelectorAll("[data-action=filter]")
-    .forEach((button) => button.addEventListener("click", selectFilter)); 
-
-
-  //Sorting
-  document.querySelectorAll("[data-action=sort]")
-    .forEach(button => button.addEventListener("click", selectSort)); 
-
+  readBtns();
 
   ListAllStudents();
-}
+};
+
+
+
+
+
+
+
+
+
+
+function readBtns() {
+  console.log("filter or sort")
+  
+  //filterbuttons
+  document.querySelectorAll("[data-action='filter']")
+    .forEach((button) => button.addEventListener("click", selectFilter));
+
+  //Sorting
+  document.querySelectorAll("[data-action='sort']")
+    .forEach(button => button.addEventListener("click", selectSort)); 
+};
+
+
+
+
+
+
+
+
+
+
+// Tells what button was clicked
+function selectFilter( event ) {
+
+  //reads witch button is clicked
+  const filterBy = event.target.dataset.filter;
+
+  console.log(`You clicked this ${filterBy}`);
+
+  setFilter(filterBy);
+};
+
+
+
+
+
+function setFilter( filterBy ) {
+  settings.filterBy = filterBy;
+  buildList();
+};
+
+
+
+
+
+// Filter what should be filtered
+function filterList(filterredList) {
+  //adds the selected students to filteredList
+  
+  if (settings.filterBy === "gryffindor") {
+    filterredList = AllStudents.filter(isGryffindor);
+
+  } else if (settings.filterBy === "hufflepuff") {
+    filterredList = AllStudents.filter(isHufflepuff);
+
+  } else if (settings.filterBy === "ravenclaw") {
+    filterredList = AllStudents.filter(isRavenclaw);
+    
+  } else if (settings.filterBy === "slytherin") {
+    filterredList = AllStudents.filter(isSlytherin);
+  }
+  //TODO: filter on expelled and unexpelled
+
+  //console.log(filterredList);
+  return filterredList;
+};
+
+
+
+
+
+
+
+
+
+
+// See only gryffindor students
+function isGryffindor(students) {
+  
+  return students.house === "gryffindor";
+};
+
+
+
+// See only hufflepuff students
+function isHufflepuff(students) {
+  
+  return students.house === "hufflepuff";
+};
+
+
+
+// See only ravenclaw students
+function isRavenclaw(students) {
+  
+  return students.house === "ravenclaw";
+};
+
+
+
+// See only slytherin students
+function isSlytherin(students) {
+  
+  return students.house === "slytherin";
+};
 
 
 
@@ -49,7 +155,7 @@ function start() {
 
 // Finds what should be sortet and telles next function
 function selectSort( event ) {
-  console.log("I am working just fine - sort")
+  console.log("Toggel sort")
 
   const sortBy = event.target.dataset.sort;
   const sortDir = event.target.dataset.sortDirection;
@@ -68,21 +174,11 @@ function selectSort( event ) {
 
 
 
-
-
-
-
-
 function setSort( sortBy, sortDir ) {
   settings.sortBy = sortBy;
   settings.sortDir = sortDir;
-  bildList();
-}
-
-
-
-
-
+  buildList();
+};
 
 
 
@@ -90,7 +186,7 @@ function setSort( sortBy, sortDir ) {
 
 // Sort what should be sortet
 function sortList( AllStudents ) {
-  console.log("I too am working")
+  console.log("sort is in the house")
 
   let direction = 1;
 
@@ -122,156 +218,15 @@ function sortList( AllStudents ) {
 
 
 
-// Tells what button was clicked
-function selectFilter( event ) {
-
-  //reads witch button is clicked
-  const filterBy = event.target.dataset.filter;
-
-  console.log(`You clicked this ${filterBy}`);
-
-  setFilter(filterBy);
-};
-
-
-
-
-
-
-
-
-
-
-function setFilter( filterBy ) {
-  settings.filterBy = filterBy;
-  bildList();
-};
-
-
-
-
-
-
-
-
-
-
-// Filter what should be Filtered
-function filterList( filteredList ){
-
-  if (settings.filterBy === "gryffindor") {
-      filteredList = AllStudents.filter(isGry);
-
-  } else if (settings.filterBy === "hufflepuff") {
-      filteredList = AllStudents.filter(isHuf);
-
-  }else if (settings.filterBy === "rawenclaw") {
-    filteredList = AllStudents.filter(isRaw);
-
-  }else if (settings.filterBy === "slytherin") {
-  filteredList = AllStudents.filter(isSly);
-
-  }else if (settings.filterBy === "prefect") {
-  filteredList = AllStudents.filter(isPre);
-
-  }else if (settings.filterBy === "inquisitorialSquad") {
-  filteredList = AllStudents.filter(isInq);
-
-  }else if (settings.filterBy === "expelled") {
-  filteredList = AllStudents.filter(isExp);
-
-  }
-
-  return filteredList;
-
-};
-
-
-
-
-
-
-
-
-
-
-// Filter to only see gryffindors
-function isGry( students ) {
-  return students.house === "gryffindor";
-}
-
-
-
-
-
-// Filter to only see hufflepuffs
-function isHuf( students ) {
-  return students.house === "hufflepuff";
-}
-
-
-
-
-
-// Filter to only see rawenclaws
-function isRaw( students ) {
-  return students.house === "rawenclaw";
-}
-
-
-
-
-
-// Filter to only see slytherins
-function isSly( students ) {
-  return students.house === "slytherin";
-}
-
-
-
-
-
-// Filter to only see prefects
-function isPre( students ) {
-  return students.type === "prefect";
-}
-
-
-
-
-
-// Filter to only see inquisitorialSquads
-function isInq( students ) {
-  return students.type === "inquisitorialSquad";
-}
-
-
-
-
-
-// Filter to only see expelleds
-function isExp( students ) {
-  return students.type === "expelled";
-}
-
-
-
-
-
-
-
-
-
-
-// Bilds a new list, first filter then sort
-function bildList() {
+// Builds list form filter and sort
+function buildList() {
   console.log("Bilding");
 
   const fList = filterList( AllStudents );
   const sList = sortList( fList );
 
   displayList( sList );
-}
+};
 
 
 
@@ -304,55 +259,135 @@ async function ListAllStudents() {
 
 
 
-function ShowStudents(jsonObject) {
-  //console.log("There is so manny");
+// The same as prepare objects function
+function ShowStudents(student) {
+//console.log("There is so manny");
+
+  student.forEach((student) => {
+
+    // make template
+    const studenttemp = {
+      firstname: "",
+      middlename: undefined,
+      lastname: "",
+      nickname: undefined,
+      gender: "",
+      img: undefined,
+      house: ""
+  };
+
+  // create template
+  const students = Object.create(studenttemp);
 
 
-    jsonObject.forEach((student) => {
+  //Split "fullname" into smaller parts.
+  const fullName = student.fullname.toLowerCase().trim();
+  const splitFullName = fullName.split(" ");
+  const house = student.house.toLowerCase().trim();
+  
+  let lastName = "";
+  let indexhyphen = 0;
+  let firstLetterAfterHyphen = "";
+  let smallLettersAfterHyphen = "";
+  
 
-      // make template
-      const studenttemp = {
-        firstname: "",
-        middlename: undefined,
-        lastname: "",
-        nickname: undefined,
-        gender: "",
-        img: undefined,
-        house: ""
-    };
+  //Firstname
+  let firstName =
+    splitFullName[0].substring(0, 1).toUpperCase() +
+    splitFullName[0].substring(1);
+  
 
-      // create template
-      const students = Object.create(studenttemp);
+  students.firstname = firstName;
+  
 
+  if (splitFullName.length > 1) {
+    
+    //Lastname
+    lastName = splitFullName[splitFullName.length - 1].substring(0, 1).toUpperCase() +
+      splitFullName[splitFullName.length - 1].substring(1);
+  
 
-      // tells what first and last space is
-      const firstSpace = student.fullname.trim().indexOf(" ");
-      const lastSpace = student.fullname.trim().lastIndexOf(" ");
+    //Check for a hyphen in the lastnames
+    indexhyphen = lastName.indexOf("-");
 
+    if (indexhyphen != -1) {
+      const nameBeforeHyphen = lastName.substring(0, indexhyphen + 1);
 
-      // tells to get house, gender, first, last, middel and nicknames
-      students.firstname = student.fullname.trim().substring(0, firstSpace);
-      students.middlename = student.fullname.trim().substring(firstSpace, lastSpace);
-      students.nickname = student.fullname.trim().substring(firstSpace, lastSpace);
+      firstLetterAfterHyphen = lastName.substring(indexhyphen + 1, indexhyphen + 2).toUpperCase();
 
-      if (students.middlename.substring(0,1) == `"`) {
-        students.nickname = students.middlename;
-        students.middlename = "";
+      smallLettersAfterHyphen = lastName.substring(indexhyphen + 2);
+      
+      lastName = nameBeforeHyphen + firstLetterAfterHyphen + smallLettersAfterHyphen;
+    }
+  
+    students.lastname = lastName;
+  
+
+    //Middlename or Nickname
+    let middlename = "";
+    let nickname = null;
+
+    if (splitFullName.length > 2) {
+
+      if (splitFullName[1].indexOf('"') >= 0) {
+
+        nickname = splitFullName[1].replaceAll('"', "");
+  
+        nickname = nickname.substring(0, 1).toUpperCase() + nickname.substring(1);
+
+        middlename = null;
+
       } else {
-        students.nickname = "";
+        middlename = splitFullName[1].substring(0, 1).toUpperCase() + splitFullName[1].substring(1);
+
+        nickname = null;
       }
 
-      students.lastname = student.fullname.trim().substring(lastSpace);
-      students.gender = student.gender;
-      students.house = student.house.trim().substring(0, 1).toUpperCase() + student.house.substring(1).toLowerCase();
-      students.img = student["none"];
+    } else {
+      middlename = null;
+    }
+  
+    students.middlename = middlename;
+    students.nickname = nickname;
+  
 
-      //console.log(students);
+    //console.log(middlename);
+    //console.log(nickname);
 
-      
-      AllStudents.push(students);
+  } else {
+    students.lastname = null;
+    students.middlename = null;
+    students.nickname = null;
+  }
+  
+  //Photo
+  if (students.lastname != null) {
 
-    });
+    if (indexhyphen == -1) {
+
+      if (students.firstname == "Padma" || students.firstname == "Parvati") {
+
+        students.photo = lastName.toLowerCase() + "_" + firstName.substring(0).toLowerCase() + ".png";
+
+      } else {
+        students.photo = lastName.toLowerCase() + "_" + firstName.substring(0, 1).toLowerCase() + ".png";
+      }
+
+    } else {
+      students.photo = firstLetterAfterHyphen.toLocaleLowerCase() + smallLettersAfterHyphen + "_" +
+        firstName.substring(0, 1).toLowerCase() + ".png";
+    }
+
+  } else {
+    students.photo = null;
+  }
+  
+  //House is already a seperate string so just adds the age to the object
+  students.house = house.substring(0, 1).toUpperCase() + house.substring(1);
+    
+  AllStudents.push(students);
+
+  });
 
   displayList();
 
@@ -367,6 +402,7 @@ function ShowStudents(jsonObject) {
 
 
 
+// Clear list and makes new
 function displayList() {
   console.log("I am here");
 
@@ -375,7 +411,7 @@ function displayList() {
 
   // Make new list
   AllStudents.forEach(displayStudents);
-}
+};
 
 
 
@@ -386,8 +422,9 @@ function displayList() {
 
 
 
+// Clone and show in html
 function displayStudents(students) {
-  console.log("Hello all clones");
+  //console.log("Hello all clones");
 
   // Create clone 
   const clone = document.querySelector("template#student").content.cloneNode(true);
@@ -404,7 +441,7 @@ function displayStudents(students) {
   // Append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 
-}
+};
 
 
 
