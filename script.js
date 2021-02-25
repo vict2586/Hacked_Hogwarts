@@ -8,8 +8,12 @@ let AllStudents = [];
 let settings = {
   filterBy: "all",
   sortBy: "firstname",
-  sortDir: "asc"
+  sortDir: "asc",
 };
+
+const search = document.querySelector(".search");
+
+let numberOfStudents = document.querySelector(".studentnumber")
 
 
 
@@ -39,17 +43,52 @@ function start() {
 
 
 function readBtns() {
-  //console.log("filter or sort")
+  //console.log("filter, sort or search ")
   
-  //filterbuttons
+  // Filterbuttons
   //document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
-
+  
   document.querySelector("#houseList").onchange = function () {selectHouseFilter(this.value);};
 
-  //Sorting
+
+  // Sorting
   document.querySelectorAll("[data-action='sort']")
     .forEach(button => button.addEventListener("click", selectSort)); 
+
+
+  // Search 
+  search.addEventListener("input", startSearch);
 };
+
+
+
+
+
+
+
+
+
+
+// Search 
+function startSearch(event) {
+
+  let searchList = AllStudents.filter((students) => {
+
+    let name = "";
+
+    if (students.lastname === null) {
+      name = students.firstname;
+    } else {
+      name = students.firstname + " " + students.lastname;
+    }
+    return name.toLowerCase().includes(event.target.value);
+  });
+
+  //Show number of students
+  numberOfStudents.textContent = `All students: ${searchList.length}`;
+
+  displayList(searchList);
+}
 
 
 
@@ -100,6 +139,9 @@ function filterHouseList(filterredList) {
   } else if (settings.filterBy === "slytherin") {
     filterredList = AllStudents.filter(isSlytherin);
   }
+
+  //Show number of students
+  numberOfStudents.textContent = `All students: ${filterredList.length}`;
 
   //console.log(filterredList);
   return filterredList;
@@ -241,7 +283,7 @@ function buildList() {
 
 
 
-// fetch info from json
+// Fetch info from json
 async function ListAllStudents() {
   //console.log("Done");
 
@@ -286,7 +328,7 @@ function ShowStudents(student) {
   const students = Object.create(studenttemp);
 
 
-  //Split "fullname" into smaller parts.
+  // Split "fullname" into smaller parts.
   const fullName = student.fullname.toLowerCase().trim();
   const splitFullName = fullName.split(" ");
   const house = student.house.toLowerCase().trim();
@@ -298,7 +340,7 @@ function ShowStudents(student) {
   let smallLettersAfterHyphen = "";
   
 
-  //Firstname
+  // Firstname
   let firstName =
     splitFullName[0].substring(0, 1).toUpperCase() +
     splitFullName[0].substring(1);
@@ -309,12 +351,12 @@ function ShowStudents(student) {
 
   if (splitFullName.length > 1) {
     
-    //Lastname
+    // Lastname
     lastName = splitFullName[splitFullName.length - 1].substring(0, 1).toUpperCase() +
       splitFullName[splitFullName.length - 1].substring(1);
   
 
-    //Check for a hyphen in the lastnames
+    // Check for a hyphen in the lastnames
     indexhyphen = lastName.indexOf("-");
 
     if (indexhyphen != -1) {
@@ -330,7 +372,7 @@ function ShowStudents(student) {
     students.lastname = lastName;
   
 
-    //Middlename or Nickname
+    // Middlename or Nickname
     let middlename = "";
     let nickname = "";
 
@@ -367,7 +409,7 @@ function ShowStudents(student) {
     students.nickname = "";
   }
   
-  //Photo
+  // Photo
   if (students.lastname != null) {
 
     if (indexhyphen == -1) {
@@ -399,9 +441,12 @@ function ShowStudents(student) {
   }
   */
   
-  //House is already a seperate string so just adds the age to the object
+  // House is already a seperate string so just adds the age to the object
   students.house = house.substring(0, 1).toUpperCase() + house.substring(1);
   students.gender = gender.substring(0, 1).toUpperCase() + gender.substring(1);
+
+  // Show number of students
+  numberOfStudents.textContent = `All students: ${students.length}`;
     
   AllStudents.push(students);
 

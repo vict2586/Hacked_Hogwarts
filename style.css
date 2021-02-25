@@ -12,7 +12,7 @@ html {
 /* body */
 body {
   padding: 50px;
-  color: rgb(150, 126, 96);
+  color: rgb(128, 107, 83);
   background-color: burlywood;
 }
 
@@ -29,7 +29,13 @@ img {
 #heading {
   font-family: "Cinzel Decorative", cursive;
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
+}
+
+.studentnumber {
+  font-family: "Cinzel Decorative", cursive;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 h3 {
@@ -47,8 +53,12 @@ p {
 /* -------------------------------------------------------------------------------- */
 
 /* list display */
+main {
+  display: flex;
+  justify-content: center;
+}
+
 #list {
-  margin: 1rem 1rem 1rem 27rem;
   color: black;
 }
 
@@ -65,25 +75,16 @@ p {
 /* -------------------------------------------------------------------------------- */
 
 /* search bar */
-.search-container {
+.search {
   float: right;
-}
-
-.search-container button {
-  float: right;
-  margin-right: 16px;
-  border: none;
-  cursor: pointer;
-  margin-left: 5px;
-  width: 60px;
-  height: 3vh;
+  margin-top: 0.6rem;
 }
 
 /* filter buttons */
 #filter_buttons {
   display: flex;
   justify-content: center;
-  margin-left: 6rem;
+  margin-left: 2rem;
 }
 
 #filter_buttons button {
@@ -93,7 +94,7 @@ p {
 #houseList {
   display: flex;
   justify-content: center;
-  margin: -2rem 0 4rem 46rem;
+  margin: -1.9rem 0 4rem 47rem;
 }
 
 /* -------------------------------------------------------------------------------- */
