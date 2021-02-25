@@ -121,11 +121,11 @@ main {
   display: flex;
   position: relative;
   width: 80vw;
-  height: 60vh;
+  height: 65vh;
   margin: 9rem auto;
   background-color: beige;
   flex-wrap: wrap;
-  padding: 35px;
+  padding: 40px;
   color: black;
 }
 
@@ -149,7 +149,7 @@ main {
 
 .popup_column2 {
   float: right;
-  margin: -19rem 0 0 40rem;
+  margin: -19.5rem 0 0 40rem;
   width: 15%;
 }
 

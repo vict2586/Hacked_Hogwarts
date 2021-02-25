@@ -328,7 +328,7 @@ function ShowStudents(student) {
       gender: "",
       photo: undefined,
       house: "",
-      prefect: false,
+      prefect: "No",
       expelled: false
   };
 
@@ -527,20 +527,38 @@ function showDetails(students) {
 
   popup.style.display = "block";
 
+  // Names
   popup.querySelector(".fullname").textContent = `${students.firstname} ${students.lastname}`;
-
   popup.querySelector(".middlename").textContent = `Middlename: ${students.middlename}`;
   popup.querySelector(".nickname").textContent = `Nickname: ${students.nickname}`;
 
+  // Gender
   popup.querySelector("#gender").textContent = `Gender: ${students.gender}`;
 
+  // House
   popup.querySelector("#house").textContent = `House: ${students.house}`;
 
-  // blod-status
-  // prefect
-  // inquisitor
+  // blod-status goes here
+  
+  // Prefects
+  popup.querySelector(".prefect").textContent = `Prefect: ${students.prefect}`;
 
+  // inquisitor goes here 
+
+  // Expelled
   document.querySelector("#expellbutton").addEventListener("click", expellStudentClosure);
+
+  if (students.expelled === true) {
+    popup.querySelector("#squadbutton").classList.add("hide");
+    popup.querySelector("#prefectbutton").classList.add("hide");
+    popup.querySelector("#expellbutton").classList.add("hide");
+
+  } else if (students.expelled === false){
+    popup.querySelector("#squadbutton").classList.remove("hide");
+    popup.querySelector("#prefectbutton").classList.remove("hide");
+    popup.querySelector("#expellbutton").classList.remove("hide");
+   
+  }
   
   function expellStudentClosure() {
     document.querySelector("#expellbutton").removeEventListener("click", expellStudentClosure);
@@ -548,6 +566,7 @@ function showDetails(students) {
     expellStudent(students);
   }
 
+  // Student photo, house shield and house colors
   if (students.photo != null) {
     popup.querySelector("#photo").src = "images/" + students.photo;
   }
@@ -556,9 +575,7 @@ function showDetails(students) {
 
   popup.querySelector("#color").src = "images/" + students.house.toLowerCase() + "_color.png";
 
-  // house shield
-  // house color
-
+  // Close popup
   document.querySelector(".close").addEventListener("click", () => (popup.style.display = "none"));
 }
 
@@ -573,11 +590,13 @@ function showDetails(students) {
 
 function expellStudent(students){
   console.log("Expell button clicked")
-  student.expelled = !student.expelled;
 
+  students.expelled = !students.expelled
+
+  // Removes student from AllStudents array
   AllStudents.splice(AllStudents.indexOf(students), 1);
 
-  ExpelledStudents.push(student);
+  ExpelledStudents.push(students);
 
   buildList();
 }
