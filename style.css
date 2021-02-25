@@ -125,7 +125,7 @@ main {
   margin: 9rem auto;
   background-color: beige;
   flex-wrap: wrap;
-  padding: 50px;
+  padding: 35px;
   color: black;
 }
 
@@ -143,15 +143,32 @@ main {
 
 .popup_column1 {
   float: left;
-  margin: 1.5rem 0 0 7rem;
+  margin: 0 0 0 7rem;
+  width: 40%;
 }
 
 .popup_column2 {
   float: right;
-  margin: 1.5rem 0 0 20rem;
+  margin: -19rem 0 0 40rem;
   width: 15%;
 }
 
 .popup_column2 img {
   width: 150%;
+}
+
+#popupbuttons {
+  margin-top: 1rem;
+}
+
+#shield {
+  margin-top: 1rem;
+  margin-left: 2rem;
+  width: 25%;
+}
+
+#color {
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  width: 25%;
 }

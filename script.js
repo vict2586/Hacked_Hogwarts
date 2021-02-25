@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", start);
 
 let AllStudents = [];
 
+let ExpelledStudents = [];
+
 // Global
 let settings = {
   filterBy: "all",
@@ -46,9 +48,8 @@ function readBtns() {
   //console.log("filter, sort or search ")
   
   // Filterbuttons
-  //document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
-  
-  document.querySelector("#houseList").onchange = function () {selectHouseFilter(this.value);};
+  document.querySelectorAll("[data-action='filter']")
+    .forEach(button => button.addEventListener("click", selectFilter));
 
 
   // Sorting
@@ -100,21 +101,21 @@ function startSearch(event) {
 
 
 // Tells what button was clicked
-function selectHouseFilter( event ) {
+function selectFilter( event ) {
 
   //reads witch button is clicked
-  const filterBy = event;
+  const filterBy = event.target.dataset.filter;
 
-  console.log(`You clicked this ${filterBy}`);
+  console.log(`Clicked ${filterBy}`);
 
-  setHouseFilter(filterBy);
+  setFilter(filterBy);
 };
 
 
 
 
 
-function setHouseFilter( filterBy ) {
+function setFilter(filterBy ) {
   settings.filterBy = filterBy;
   buildList();
 };
@@ -124,7 +125,7 @@ function setHouseFilter( filterBy ) {
 
 
 // Filter what should be filtered
-function filterHouseList(filterredList) {
+function filterList(filterredList) {
   //adds the selected students to filteredList
   
   if (settings.filterBy === "gryffindor") {
@@ -138,6 +139,13 @@ function filterHouseList(filterredList) {
     
   } else if (settings.filterBy === "slytherin") {
     filterredList = AllStudents.filter(isSlytherin);
+
+  } else if (settings.filterBy === "expelled"){
+    console.log(ExpelledStudents);
+
+    AllStudents = ExpelledStudents;
+    
+    return ExpelledStudents; 
   }
 
   //Show number of students
@@ -268,7 +276,7 @@ function sortList( AllStudents ) {
 function buildList() {
   //console.log("Bilding");
 
-  const fList = filterHouseList( AllStudents );
+  const fList = filterList( AllStudents );
   const sList = sortList( fList );
 
   displayList( sList );
@@ -531,14 +539,45 @@ function showDetails(students) {
   // blod-status
   // prefect
   // inquisitor
-  // expelled
+
+  document.querySelector("#expellbutton").addEventListener("click", expellStudentClosure);
+  
+  function expellStudentClosure() {
+    document.querySelector("#expellbutton").removeEventListener("click", expellStudentClosure);
+
+    expellStudent(students);
+  }
 
   if (students.photo != null) {
     popup.querySelector("#photo").src = "images/" + students.photo;
   }
 
+  popup.querySelector("#shield").src = "images/" + students.house.toLowerCase() + ".png";
+
+  popup.querySelector("#color").src = "images/" + students.house.toLowerCase() + "_color.png";
+
   // house shield
   // house color
 
   document.querySelector(".close").addEventListener("click", () => (popup.style.display = "none"));
+}
+
+
+
+
+
+
+
+
+
+
+function expellStudent(students){
+  console.log("Expell button clicked")
+  student.expelled = !student.expelled;
+
+  AllStudents.splice(AllStudents.indexOf(students), 1);
+
+  ExpelledStudents.push(student);
+
+  buildList();
 }
