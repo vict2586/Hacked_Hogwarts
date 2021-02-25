@@ -42,8 +42,9 @@ function readBtns() {
   //console.log("filter or sort")
   
   //filterbuttons
-  document.querySelectorAll("[data-action='filter']")
-    .forEach((button) => button.addEventListener("click", selectFilter));
+  //document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
+
+  document.querySelector("#houseList").onchange = function () {selectHouseFilter(this.value);};
 
   //Sorting
   document.querySelectorAll("[data-action='sort']")
@@ -60,21 +61,21 @@ function readBtns() {
 
 
 // Tells what button was clicked
-function selectFilter( event ) {
+function selectHouseFilter( event ) {
 
   //reads witch button is clicked
-  const filterBy = event.target.dataset.filter;
+  const filterBy = event;
 
   console.log(`You clicked this ${filterBy}`);
 
-  setFilter(filterBy);
+  setHouseFilter(filterBy);
 };
 
 
 
 
 
-function setFilter( filterBy ) {
+function setHouseFilter( filterBy ) {
   settings.filterBy = filterBy;
   buildList();
 };
@@ -84,7 +85,7 @@ function setFilter( filterBy ) {
 
 
 // Filter what should be filtered
-function filterList(filterredList) {
+function filterHouseList(filterredList) {
   //adds the selected students to filteredList
   
   if (settings.filterBy === "gryffindor") {
@@ -99,9 +100,8 @@ function filterList(filterredList) {
   } else if (settings.filterBy === "slytherin") {
     filterredList = AllStudents.filter(isSlytherin);
   }
-  //TODO: filter on expelled and unexpelled
 
-  console.log(filterredList);
+  //console.log(filterredList);
   return filterredList;
 };
 
@@ -226,7 +226,7 @@ function sortList( AllStudents ) {
 function buildList() {
   //console.log("Bilding");
 
-  const fList = filterList( AllStudents );
+  const fList = filterHouseList( AllStudents );
   const sList = sortList( fList );
 
   displayList( sList );

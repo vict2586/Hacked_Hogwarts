@@ -12,22 +12,8 @@ html {
 /* body */
 body {
   padding: 50px;
-  color: white;
-
-  /* Gradient code from https://uigradients.com/ */
-  background: #17313b; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to bottom,
-    #325f72,
-    #294a55,
-    #162f3a
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #356377,
-    #294a55,
-    #18323d
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: rgb(150, 126, 96);
+  background-color: burlywood;
 }
 
 /* ganeral img ruls */
@@ -37,9 +23,13 @@ img {
 
 /* -------------------------------------------------------------------------------- */
 
-/* h1 */
-h1 {
-  margin: 1rem 1rem 1rem 30rem;
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap");
+
+/* fonts */
+#heading {
+  font-family: "Cinzel Decorative", cursive;
+  text-align: center;
+  margin-bottom: 4rem;
 }
 
 h3 {
@@ -59,6 +49,7 @@ p {
 /* list display */
 #list {
   margin: 1rem 1rem 1rem 27rem;
+  color: black;
 }
 
 #list tbody tr td {
@@ -92,10 +83,17 @@ p {
 #filter_buttons {
   display: flex;
   justify-content: center;
+  margin-left: 6rem;
 }
 
 #filter_buttons button {
   margin: 10px;
+}
+
+#houseList {
+  display: flex;
+  justify-content: center;
+  margin: -2rem 0 4rem 46rem;
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -124,7 +122,7 @@ p {
   width: 80vw;
   height: 60vh;
   margin: 9rem auto;
-  background-color: white;
+  background-color: beige;
   flex-wrap: wrap;
   padding: 50px;
   color: black;
@@ -136,7 +134,7 @@ p {
   right: 3vw;
   width: 35px;
   height: 20px;
-  background-color: red;
+  background-color: rgb(150, 126, 96);
   color: white;
   cursor: pointer;
   text-align: center;
