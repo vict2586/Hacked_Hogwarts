@@ -13,6 +13,8 @@ let settings = {
   sortDir: "asc",
 };
 
+let bloodObject; 
+
 const search = document.querySelector(".search");
 
 let numberOfStudents = document.querySelector(".studentnumber")
@@ -141,11 +143,8 @@ function filterList(filterredList) {
     filterredList = AllStudents.filter(isSlytherin);
 
   } else if (settings.filterBy === "expelled"){
-    console.log(ExpelledStudents);
-
-    AllStudents = ExpelledStudents;
+    filterredList = ExpelledStudents;
     
-    return ExpelledStudents; 
   }
 
   //Show number of students
@@ -295,13 +294,16 @@ function buildList() {
 async function ListAllStudents() {
   //console.log("Done");
 
-  const url = "https://petlatkea.dk/2021/hogwarts/students.json";
+  const url1 = "https://petlatkea.dk/2021/hogwarts/students.json";
+  const url2 = "https://petlatkea.dk/2021/hogwarts/families.json"
 
-  const jsonData = await fetch(url);
-
+  const jsonData = await fetch(url1);
   const jsonObject = await jsonData.json();
 
-  ShowStudents(jsonObject);
+  const bloodData = await fetch(url2);
+  bloodObject = await bloodData.json();
+
+  ShowStudents(jsonObject, bloodObject);
 };
 
 
@@ -328,7 +330,8 @@ function ShowStudents(student) {
       gender: "",
       photo: undefined,
       house: "",
-      prefect: "No",
+      blood: "",
+      prefect: false,
       expelled: false
   };
 
@@ -349,11 +352,8 @@ function ShowStudents(student) {
   
 
   // Firstname
-  let firstName =
-    splitFullName[0].substring(0, 1).toUpperCase() +
-    splitFullName[0].substring(1);
+  let firstName = splitFullName[0].substring(0, 1).toUpperCase() + splitFullName[0].substring(1);
   
-
   students.firstname = firstName;
   
 
@@ -412,7 +412,7 @@ function ShowStudents(student) {
     //console.log(nickname);
 
   } else {
-    students.lastname = null;
+    students.lastname = "";
     students.middlename = "";
     students.nickname = "";
   }
@@ -436,7 +436,7 @@ function ShowStudents(student) {
     }
 
   } else {
-    students.photo = null;
+    students.photo = "";
   }
 
   /*
@@ -451,7 +451,13 @@ function ShowStudents(student) {
   
   // House is already a seperate string so just adds the age to the object
   students.house = house.substring(0, 1).toUpperCase() + house.substring(1);
+
   students.gender = gender.substring(0, 1).toUpperCase() + gender.substring(1);
+
+  students.blood = bloodStatus(students);
+
+  // Prefect
+  students.prefect = false;
 
   // Show number of students
   numberOfStudents.textContent = `All students: ${students.length}`;
@@ -463,6 +469,30 @@ function ShowStudents(student) {
   displayList(AllStudents);
 
 };
+
+
+
+
+
+
+
+
+
+
+// Blood status
+function bloodStatus(students) {
+
+  if (bloodObject.half.indexOf(students.lastname) !=-1) {
+    return "Half blood"
+
+  } else if (bloodObject.pure.indexOf(students.lastname) !=-1) {
+    return "Pure blood"
+
+  } else {
+    return "Muggle"
+  }
+  
+}
 
 
 
@@ -538,22 +568,38 @@ function showDetails(students) {
   // House
   popup.querySelector("#house").textContent = `House: ${students.house}`;
 
-  // blod-status goes here
+  // blod-status
+  popup.querySelector("#blood").textContent = `Blood status: ${students.blood}`;
   
   // Prefects
-  popup.querySelector(".prefect").textContent = `Prefect: ${students.prefect}`;
+  if (students.prefect === true) {
+    popup.querySelector(".prefect").textContent = `Prefect: Yes`;
 
+  } else {
+    popup.querySelector(".prefect").textContent = `Prefect: No`;
+  }
+
+  document.querySelector("#prefectbutton").addEventListener("click", prefectClosure);
+  
+  function prefectClosure() {
+    document.querySelector("#prefectbutton").removeEventListener("click", prefectClosure);
+
+    makePrefect(students);
+  }
+  
   // inquisitor goes here 
 
   // Expelled
   document.querySelector("#expellbutton").addEventListener("click", expellStudentClosure);
 
   if (students.expelled === true) {
+    popup.querySelector(".expell").textContent = `Expelled: Yes`
     popup.querySelector("#squadbutton").classList.add("hide");
     popup.querySelector("#prefectbutton").classList.add("hide");
     popup.querySelector("#expellbutton").classList.add("hide");
 
   } else if (students.expelled === false){
+    popup.querySelector(".expell").textContent = `Expelled: No`
     popup.querySelector("#squadbutton").classList.remove("hide");
     popup.querySelector("#prefectbutton").classList.remove("hide");
     popup.querySelector("#expellbutton").classList.remove("hide");
@@ -597,6 +643,89 @@ function expellStudent(students){
   AllStudents.splice(AllStudents.indexOf(students), 1);
 
   ExpelledStudents.push(students);
+
+  buildList();
+}
+
+
+
+
+
+
+
+
+
+
+// Add student to prefect
+function makePrefect(students) {
+
+  const sameHouse = AllStudents.filter(checkHouse);
+
+  if (students.prefect === true) {
+    students.prefect = !students.prefect;
+
+    console.log(students);
+
+  } else if (sameHouse.length >= 1) {
+    prefectConflict(sameHouse, students);
+
+    console.log(sameHouse);
+
+  } else if (students.prefect === false) {
+    students.prefect = !students.prefect;
+
+    console.log(students);
+  }
+
+  function checkHouse(compareStudent) {
+    if (students.house === compareStudent.house && compareStudent.prefect == true) {
+      return true;
+
+    } else {
+      return false;
+    }
+  }
+  showDetails(students);
+
+  buildList(students);
+}
+
+
+
+
+
+// Starts if there is a conflict
+function prefectConflict(sameHouse, students) {
+
+  document.querySelector("#prefectConflict").classList.add("show");
+  
+  document.querySelector(".closePrefect").addEventListener("click", removeDialog);
+  
+  document.querySelector("#prefectConflict .student1").textContent = `${sameHouse[0].firstname} ${sameHouse[0].lastname}`;
+  
+  document.querySelector("#prefectConflict [data-action=remove]").addEventListener("click", function () {
+    togglePrefect(students);
+  });
+
+  function togglePrefect(students) {
+    document.querySelector("#prefectConflict [data-action=remove]").removeEventListener("click", function () {
+      togglePrefect(students);
+    });
+
+    document.querySelector("#prefectConflict").classList.remove("show");
+
+    console.log(students);
+
+    students.prefect = !students.prefect;
+  }
+
+  function removeDialog() {
+    document.querySelector("#prefectConflict").classList.remove("show");
+
+    document.querySelector(".closePrefect").removeEventListener("click", removeDialog);
+
+    showDetails(students);
+  }
 
   buildList();
 }

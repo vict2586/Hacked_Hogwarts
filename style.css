@@ -94,7 +94,7 @@ main {
 #houseList {
   display: flex;
   justify-content: center;
-  margin: -1.9rem 0 4rem 47rem;
+  margin: -1.95rem 0 4rem 48rem;
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -102,6 +102,18 @@ main {
 /* hide class */
 .hide {
   display: none;
+}
+
+.close {
+  position: absolute;
+  top: 2vw;
+  right: 3vw;
+  width: 35px;
+  height: 20px;
+  background-color: rgb(150, 126, 96);
+  color: white;
+  cursor: pointer;
+  text-align: center;
 }
 
 /* -------------------------------------------------------------------------------- */
@@ -129,18 +141,6 @@ main {
   color: black;
 }
 
-.close {
-  position: absolute;
-  top: 2vw;
-  right: 3vw;
-  width: 35px;
-  height: 20px;
-  background-color: rgb(150, 126, 96);
-  color: white;
-  cursor: pointer;
-  text-align: center;
-}
-
 .popup_column1 {
   float: left;
   margin: 0 0 0 7rem;
@@ -162,7 +162,7 @@ main {
 }
 
 #shield {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   margin-left: 2rem;
   width: 25%;
 }
@@ -171,4 +171,50 @@ main {
   margin-bottom: 2rem;
   margin-left: 2rem;
   width: 25%;
+}
+
+/* -------------------------------------------------------------------------------- */
+
+.hidePrefect {
+  display: none;
+}
+
+.show {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.prefectContent {
+  display: flex;
+  position: relative;
+  width: 80vw;
+  height: 65vh;
+  margin: 9rem auto;
+  background-color: beige;
+  flex-wrap: wrap;
+  padding: 160px 220px;
+  color: black;
+}
+
+.prefectContent p {
+  margin: 2rem 15rem;
+}
+
+.closePrefect {
+  position: absolute;
+  top: 2vw;
+  right: 3vw;
+  width: 35px;
+  height: 20px;
+  background-color: rgb(150, 126, 96);
+  color: white;
+  cursor: pointer;
+  text-align: center;
 }
