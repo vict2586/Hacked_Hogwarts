@@ -696,12 +696,21 @@ function showDetails(students) {
 function expellStudent(students){
   console.log("Expell button clicked")
 
+  if (systemIsHacked === true && students.firstname === "Victoria") {
+    students.expelled = false;
+
+    alert("I can't be expelled, user!");
+
+  } else {
+
   students.expelled = !students.expelled
 
   // Removes student from AllStudents array
   AllStudents.splice(AllStudents.indexOf(students), 1);
 
   ExpelledStudents.push(students);
+
+  }
 
   buildList();
 }
