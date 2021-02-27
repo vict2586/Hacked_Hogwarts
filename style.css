@@ -218,3 +218,28 @@ main {
   cursor: pointer;
   text-align: center;
 }
+
+/* -------------------------------------------------------------------------------- */
+
+#warning {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#warning article {
+  position: relative;
+  width: 80vw;
+  height: 65vh;
+  margin: 9rem auto;
+  background-color: beige;
+  text-align: center;
+  padding-top: 180px;
+  color: black;
+}
+
+.inquisitorHide {
+  display: none;
+}

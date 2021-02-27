@@ -15,6 +15,8 @@ let settings = {
 
 let bloodObject; 
 
+let systemIsHacked = false;
+
 const search = document.querySelector(".search");
 
 let numberOfStudents = document.querySelector(".studentnumber")
@@ -145,6 +147,12 @@ function filterList(filterredList) {
   } else if (settings.filterBy === "expelled"){
     filterredList = ExpelledStudents;
     
+  } else if (settings.filterBy === "prefect") {
+    filterredList = AllStudents.filter(isPrefect);
+
+  } else if (settings.filterBy === "inquisitorial-squad") {
+    filterredList = AllStudents.filter(isSquad);
+
   }
 
   //Show number of students
@@ -196,6 +204,34 @@ function isSlytherin(house) {
   
   return house.house === "Slytherin";
 };
+
+
+
+
+
+// See only prefect students
+function isPrefect(students) {
+  if (students.prefect === true) {
+    return true;
+
+  } else {
+    return false;
+  }
+}
+
+
+
+
+
+// See only squad students
+function isSquad(students) {
+  if (students.inquisitorialsquad === true) {
+    return true;
+
+  } else {
+    return false;
+  }
+}
 
 
 
@@ -332,7 +368,8 @@ function ShowStudents(student) {
       house: "",
       blood: "",
       prefect: false,
-      expelled: false
+      expelled: false,
+      inquisitorialsquad: false
   };
 
   // create template
@@ -552,6 +589,7 @@ function displayStudents(students) {
 
 
 
+// Popup
 function showDetails(students) {
   console.log("popup");
 
@@ -587,7 +625,20 @@ function showDetails(students) {
     makePrefect(students);
   }
   
-  // inquisitor goes here 
+  // inquisitor 
+  document.querySelector("#squadbutton").addEventListener("click", addStudentInquisitorialSquad);
+
+  if (students.inquisitorialsquad) {
+    document.querySelector("#squadbutton").textContent = "Remove from inquisitorial Squad";
+  } else {
+    document.querySelector("#squadbutton").textContent = "Add to inquisitorial Squad";
+  }
+
+  function addStudentInquisitorialSquad(){
+    console.log("addStudentInquisitorialSquad");
+
+    toggleInquisitorialSquad(students);
+};
 
   // Expelled
   document.querySelector("#expellbutton").addEventListener("click", expellStudentClosure);
@@ -634,6 +685,7 @@ function showDetails(students) {
 
 
 
+// Expell student
 function expellStudent(students){
   console.log("Expell button clicked")
 
@@ -694,7 +746,7 @@ function makePrefect(students) {
 
 
 
-// Starts if there is a conflict
+// Starts if there is a conflict - prefect
 function prefectConflict(sameHouse, students) {
 
   document.querySelector("#prefectConflict").classList.add("show");
@@ -703,14 +755,10 @@ function prefectConflict(sameHouse, students) {
   
   document.querySelector("#prefectConflict .student1").textContent = `${sameHouse[0].firstname} ${sameHouse[0].lastname}`;
   
-  document.querySelector("#prefectConflict [data-action=remove]").addEventListener("click", function () {
-    togglePrefect(students);
-  });
+  document.querySelector("#prefectConflict [data-action=remove]").addEventListener("click", function () {togglePrefect(students);});
 
   function togglePrefect(students) {
-    document.querySelector("#prefectConflict [data-action=remove]").removeEventListener("click", function () {
-      togglePrefect(students);
-    });
+    document.querySelector("#prefectConflict [data-action=remove]").removeEventListener("click", function () {togglePrefect(students);});
 
     document.querySelector("#prefectConflict").classList.remove("show");
 
@@ -720,12 +768,148 @@ function prefectConflict(sameHouse, students) {
   }
 
   function removeDialog() {
-    document.querySelector("#prefectConflict").classList.remove("show");
-
     document.querySelector(".closePrefect").removeEventListener("click", removeDialog);
+
+    document.querySelector("#prefectConflict").classList.remove("show");
 
     showDetails(students);
   }
 
   buildList();
+}
+
+
+
+
+
+
+
+
+
+
+// Add student to Inquisitorial Squad
+function toggleInquisitorialSquad(students) {
+  console.log("toggleInquisitorialSquad")
+
+  if (students.inquisitorialsquad) {
+
+    console.log("This student is not a member anymore");
+
+    students.inquisitorialsquad === false;
+
+  } else if (students.blood === "Pure blood" || students.house === "Slytherin") {
+    students.inquisitorialsquad = true;
+
+    if (systemIsHacked) {
+      setTimeout(function () {toggleInquisitorialSquad(student);}, 2000);
+    }
+
+  } else {
+    showWarning();
+  }
+
+  buildList();
+}
+
+
+
+
+
+function showWarning() {
+  console.log("This student cannot be member!");
+
+  document.querySelector("#warning").classList.remove("inquisitorHide");
+  
+  document.querySelector(".understood_button").addEventListener("click", closeWarning);
+
+  function closeWarning() {
+    document.querySelector("#warning").classList.add("inquisitorHide");
+    
+    document.querySelector(".understood_button").removeEventListener("click", closeWarning);
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+// Hack system
+function hackTheSystem() {
+  if (systemIsHacked === false) {
+
+    //add me to studentlist
+    console.log("You have hacked");
+
+    const IsMe = Object.create(studenttemp);
+
+    IsMe.firstname = "Victoria";
+    IsMe.lastname = "Bührmann";
+    IsMe.middlename = "";
+    IsMe.nickname = "vigi";
+    IsMe.photo = "me.png";
+    IsMe.house = "Hufflepuff";
+    IsMe.gender = "girl";
+    IsMe.prefect = true;
+    IsMe.expelled = false;
+    IsMe.blood = "Half blood";
+    IsMe.squad = false;
+
+    AllStudents.unshift(IsMe);
+
+    systemIsHacked = true;
+
+    //fuck up blood-status
+    messWithBlood();
+
+    buildList();
+
+  } else {
+    alert("System's allready been hacked!");
+  }
+
+  setTimeout(function () {alert("You have been hacked!");}, 1000);
+}
+
+
+
+
+
+
+
+
+
+
+// Change blood types
+function messWithBlood() {
+
+  AllStudents.forEach((students) => {
+
+    if (students.blood === "Muggle") {
+      students.blood = "Pure blood";
+
+    } else if (students.blood === "Half blood") {
+      students.blood = "Pure blood";
+
+    } else {
+      let bloodNumber = Math.floor(Math.random() * 3);
+
+      if (bloodNumber === 0) {
+        students.blood = "Muggle";
+
+      } else if (bloodNumber === 1) {
+        students.blood = "Half blood";
+
+      } else {
+        students.blood = "Pure blood";
+      }
+    }
+
+  });
+
 }
