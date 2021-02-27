@@ -21,6 +21,20 @@ const search = document.querySelector(".search");
 
 let numberOfStudents = document.querySelector(".studentnumber")
 
+// make template
+const studenttemp = {
+  firstname: "",
+  middlename: undefined,
+  lastname: "",
+  nickname: undefined,
+  gender: "",
+  photo: undefined,
+  house: "",
+  blood: "",
+  prefect: false,
+  expelled: false,
+  inquisitorialsquad: false
+};
 
 
 
@@ -357,21 +371,6 @@ function ShowStudents(student) {
 
   student.forEach((student) => {
 
-    // make template
-    const studenttemp = {
-      firstname: "",
-      middlename: undefined,
-      lastname: "",
-      nickname: undefined,
-      gender: "",
-      photo: undefined,
-      house: "",
-      blood: "",
-      prefect: false,
-      expelled: false,
-      inquisitorialsquad: false
-  };
-
   // create template
   const students = Object.create(studenttemp);
 
@@ -628,6 +627,14 @@ function showDetails(students) {
   // inquisitor 
   document.querySelector("#squadbutton").addEventListener("click", addStudentInquisitorialSquad);
 
+  if (students.inquisitorialsquad === true) {
+    popup.querySelector(".squad").textContent = `Inquisitorial squad member: Yes`;
+
+  } else {
+    popup.querySelector(".squad").textContent = `Inquisitorial squad member: No`;
+
+  }
+
   if (students.inquisitorialsquad) {
     document.querySelector("#squadbutton").textContent = "Remove from inquisitorial Squad";
   } else {
@@ -800,8 +807,8 @@ function toggleInquisitorialSquad(students) {
   } else if (students.blood === "Pure blood" || students.house === "Slytherin") {
     students.inquisitorialsquad = true;
 
-    if (systemIsHacked) {
-      setTimeout(function () {toggleInquisitorialSquad(student);}, 2000);
+    if (systemIsHacked === true) {
+      setTimeout(function () {toggleInquisitorialSquad(student);}, 4000);
     }
 
   } else {
@@ -851,9 +858,9 @@ function hackTheSystem() {
     IsMe.firstname = "Victoria";
     IsMe.lastname = "Bührmann";
     IsMe.middlename = "";
-    IsMe.nickname = "vigi";
+    IsMe.nickname = "Vigi";
     IsMe.photo = "me.png";
-    IsMe.house = "Hufflepuff";
+    IsMe.house = "Ravenclaw";
     IsMe.gender = "girl";
     IsMe.prefect = true;
     IsMe.expelled = false;
