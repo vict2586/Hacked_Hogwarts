@@ -868,9 +868,9 @@ function hackTheSystem() {
     IsMe.lastname = "Bührmann";
     IsMe.middlename = "";
     IsMe.nickname = "Vigi";
-    IsMe.photo = "me.png";
+    IsMe.photo = "image/bürhmann_v.png";
     IsMe.house = "Ravenclaw";
-    IsMe.gender = "girl";
+    IsMe.gender = "Girl";
     IsMe.prefect = true;
     IsMe.expelled = false;
     IsMe.blood = "Half blood";
