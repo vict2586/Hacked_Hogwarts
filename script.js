@@ -880,7 +880,7 @@ function hackTheSystem() {
 
     systemIsHacked = true;
 
-    //fuck up blood-status
+    // Mess up blood status
     messWithBlood();
 
     buildList();
