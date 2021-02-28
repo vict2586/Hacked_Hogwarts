@@ -611,9 +611,11 @@ function showDetails(students) {
   // Prefects
   if (students.prefect === true) {
     popup.querySelector(".prefect").textContent = `Prefect: Yes`;
+    document.querySelector("#prefectbutton").textContent = "Remove prefect";
 
   } else {
     popup.querySelector(".prefect").textContent = `Prefect: No`;
+    document.querySelector("#prefectbutton").textContent = "Make prefect";
   }
 
   document.querySelector("#prefectbutton").addEventListener("click", prefectClosure);
